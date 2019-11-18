@@ -45,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //Click listener for quiting the game
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                System.exit(0);
+            }
+        });
     }
 }
