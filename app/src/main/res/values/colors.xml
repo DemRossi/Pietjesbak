@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <color name="colorPrimary">#008577</color>-->
-<!--    <color name="colorPrimaryDark">#00574B</color>-->
-<!--    <color name="colorAccent">#D81B60</color>-->
-    <color name="colorPrimary">#37474F</color>
-    <color name="colorPrimaryDark">#212121</color>
-    <color name="colorAccent">#3FC4FE</color>
+    <color name="colorPrimary">#189aea</color>
+    <color name="colorPrimaryDark">#007ddb</color>
+    <color name="colorAccent">#e5e5e5</color>
+
     <color name="colorButtonNormal">#545355</color>
-    <color name="colorText">#ffffff</color>
+
+    <color name="colorStartGradient">#1fa2ff</color>
+    <color name="colorMiddleGradient">#12d8fa</color>
+    <color name="colorEndGradient">#a6ffcb</color>
 </resources>
