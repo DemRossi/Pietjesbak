@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_pietjesbak_launcher"
         android:supportsRtl="true"
         android:theme="@style/MaterialLight">
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
