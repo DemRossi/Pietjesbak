@@ -1,6 +1,7 @@
 package com.example.pietjesbak;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,15 +10,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         Button playBtn = findViewById(R.id.playBtn);
         Button exitBtn = findViewById(R.id.exitBtn);
         //Click listener for playing the game
-            playBtn.setOnClickListener(new View.OnClickListener() {
+        playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText setPlayer1 = findViewById(R.id.inputPlayer1);
@@ -38,14 +40,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }else{
                     //make intent to next screen
-                    Toast.makeText(LoginActivity.this, "Correct", Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(LoginActivity.this, "Correct", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
         //Click listener for quiting the game
-            exitBtn.setOnClickListener(new View.OnClickListener() {
+        exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
