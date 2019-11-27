@@ -16,14 +16,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button playBtn = findViewById(R.id.playBtn);
-        Button exitBtn = findViewById(R.id.exitBtn);
+        Button playBtn = findViewById(R.id.la_playBtn);
+        Button exitBtn = findViewById(R.id.la_exitBtn);
         //Click listener for playing the game
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText setPlayer1 = findViewById(R.id.inputPlayer1);
-                EditText setPlayer2 = findViewById(R.id.inputPlayer2);
+                EditText setPlayer1 = findViewById(R.id.la_inputPlayer1);
+                EditText setPlayer2 = findViewById(R.id.la_inputPlayer2);
 
                 String strPlayer1 = setPlayer1.getText().toString();
                 String strPlayer2 = setPlayer2.getText().toString();
