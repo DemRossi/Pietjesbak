@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pietjesbak</string>
+    <string name="keepingDice">Dice to keep:</string>
 </resources>
