@@ -2,6 +2,8 @@ package com.example.pietjesbak;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,7 +42,24 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }else{
                     //make intent to next screen
-                    Toast.makeText(LoginActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+
+                    Context context = LoginActivity.this;
+
+                    //Store MainActivity.class in object
+                    Class destinationActivity = MainActivity.class;
+                    //Create Intent to start MainActivity
+                    Intent startMainActivityIntent = new Intent(context, destinationActivity);
+
+                    //Make bundle for player names
+                    Bundle playerNames = new Bundle();
+                    playerNames.putString("player1", strPlayer1);
+                    playerNames.putString("player2", strPlayer2);
+
+                    //putExtras for sending bundle playerNames with intent
+                    startMainActivityIntent.putExtras(playerNames);
+                    //Start the activity
+                    //Toast.makeText(LoginActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+                    startActivity(startMainActivityIntent);
                 }
 
             }
