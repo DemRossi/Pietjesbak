@@ -75,75 +75,32 @@ public class MainActivity extends AppCompatActivity {
         ma_ApeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int RanDiceVal1 = 1;
-                int RanDiceVal2 = 1;
-                int RanDiceVal3 = 1;
-
-                int res1 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
-                        "drawable", "com.example.pietjesbak");
-                int res2 = getResources().getIdentifier("dice_" + RanDiceVal2 ,
-                        "drawable", "com.example.pietjesbak");
-                int res3 = getResources().getIdentifier("dice_" + RanDiceVal3 ,
-                        "drawable", "com.example.pietjesbak");
-
-                ma_Dice1.setImageResource(res1);
-                ma_Dice2.setImageResource(res2);
-                ma_Dice3.setImageResource(res3);
+                RollDice(1,1,1);
             }
         });
         ma_SixNineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int RanDiceVal1 = 6;
-                int RanDiceVal2 = 5;
-                int RanDiceVal3 = 4;
-
-                int res1 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
-                        "drawable", "com.example.pietjesbak");
-                int res2 = getResources().getIdentifier("dice_" + RanDiceVal2 ,
-                        "drawable", "com.example.pietjesbak");
-                int res3 = getResources().getIdentifier("dice_" + RanDiceVal3 ,
-                        "drawable", "com.example.pietjesbak");
-
-                ma_Dice1.setImageResource(res1);
-                ma_Dice2.setImageResource(res2);
-                ma_Dice3.setImageResource(res3);
+                RollDice(6,5,4);
             }
         });
         ma_SandBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int RanDiceVal1 = randomDiceValue();
+                int RanDiceVal = randomDiceValue();
 
-                int res1 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
-                        "drawable", "com.example.pietjesbak");
-                int res2 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
-                        "drawable", "com.example.pietjesbak");
-                int res3 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
-                        "drawable", "com.example.pietjesbak");
-
-                ma_Dice1.setImageResource(res1);
-                ma_Dice2.setImageResource(res2);
-                ma_Dice3.setImageResource(res3);
+                if (RanDiceVal != 1){
+                    RollDice(RanDiceVal,RanDiceVal,RanDiceVal);
+                }else{
+                    RanDiceVal = randomDiceValue();
+                    RollDice(RanDiceVal,RanDiceVal,RanDiceVal);
+                }
             }
         });
         ma_SevenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int RanDiceVal1 = 2;
-                int RanDiceVal2 = 2;
-                int RanDiceVal3 = 3;
-
-                int res1 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
-                        "drawable", "com.example.pietjesbak");
-                int res2 = getResources().getIdentifier("dice_" + RanDiceVal2 ,
-                        "drawable", "com.example.pietjesbak");
-                int res3 = getResources().getIdentifier("dice_" + RanDiceVal3 ,
-                        "drawable", "com.example.pietjesbak");
-
-                ma_Dice1.setImageResource(res1);
-                ma_Dice2.setImageResource(res2);
-                ma_Dice3.setImageResource(res3);
+                RollDice(2,2,3);
             }
         });
 //      END test buttons
@@ -179,6 +136,39 @@ public class MainActivity extends AppCompatActivity {
             }else if (i == 3 && !ma_Checkbox_Dice3.isChecked()){
                 RanDiceVal3 = randomDiceValue();
 
+                // Select dice on random value
+                int res3 = getResources().getIdentifier("dice_" + RanDiceVal3 ,
+                        "drawable", "com.example.pietjesbak");
+
+                // Draw dice
+                ma_Dice3.setImageResource(res3);
+            }
+        }
+    }
+    public void RollDice(int ranDiceVal1,int ranDiceVal2,int ranDiceVal3){
+        int RanDiceVal1 = ranDiceVal1;
+        int RanDiceVal2 = ranDiceVal2;
+        int RanDiceVal3 = ranDiceVal3;
+
+        for (int i = 0; i<=3; i++){
+
+            // Check if dice is checked, if not give random value
+            if(i == 1 && !ma_Checkbox_Dice1.isChecked()){
+                // Select dice on random value
+                int res1 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
+                        "drawable", "com.example.pietjesbak");
+
+                // Draw dice
+                ma_Dice1.setImageResource(res1);
+
+            } else if( i == 2 && !ma_Checkbox_Dice2.isChecked()){
+                // Select dice on random value
+                int res2 = getResources().getIdentifier("dice_" + RanDiceVal2 ,
+                        "drawable", "com.example.pietjesbak");
+
+                // Draw dice
+                ma_Dice2.setImageResource(res2);
+            }else if (i == 3 && !ma_Checkbox_Dice3.isChecked()){
                 // Select dice on random value
                 int res3 = getResources().getIdentifier("dice_" + RanDiceVal3 ,
                         "drawable", "com.example.pietjesbak");
