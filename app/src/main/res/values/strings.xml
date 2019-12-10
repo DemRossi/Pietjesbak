@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Pietjesbak</string>
     <string name="keepingDice">Dice to keep:</string>
+    <string name="checkbox_Dice1">Dice 1</string>
+    <string name="checkbox_Dice2">Dice 2</string>
+    <string name="checkbox_Dice3">Dice 3</string>
 </resources>
