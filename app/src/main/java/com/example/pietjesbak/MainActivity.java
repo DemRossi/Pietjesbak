@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     AmountRolls -= 1;
                     RollDice();
                     //TODO: calculate and print the score -> function?
+                    //TODO: how about RollDice for test buttons?
                 }
 
                 if( AmountRolls == 0){
@@ -177,10 +178,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void RollDice(int ranDiceVal1,int ranDiceVal2,int ranDiceVal3){
-        int RanDiceVal1 = ranDiceVal1;
-        int RanDiceVal2 = ranDiceVal2;
-        int RanDiceVal3 = ranDiceVal3;
+    public void RollDice(int RanDiceVal1,int RanDiceVal2,int RanDiceVal3){
 
         for (int i = 0; i<=3; i++){
 
