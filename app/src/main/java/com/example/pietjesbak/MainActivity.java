@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView ma_DisplayPlayer1;
     private TextView ma_DisplayPlayer2;
     private Button ma_RollDicesBtn;
-//    private ImageView ma_Dice1; //, ma_Dice2, ma_Dice3
+    private ImageView ma_Dice1, ma_Dice2, ma_Dice3;
     public static final Random RANDOM = new Random();
 
     @Override
@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         ma_DisplayPlayer1 = (TextView) findViewById(R.id.ma_textViewPlayer1);
         ma_DisplayPlayer2 = (TextView) findViewById(R.id.ma_textViewPlayer2);
 
-//        ma_Dice1 = (ImageView) findViewById(R.id.ma_Dice1);
-//        ma_Dice2 = (TextView) findViewById(R.id.ma_Dice2);
-//        ma_Dice3 = (TextView) findViewById(R.id.ma_Dice3);
+        ma_Dice1 = (ImageView) findViewById(R.id.ma_Dice1);
+        ma_Dice2 = (ImageView) findViewById(R.id.ma_Dice2);
+        ma_Dice3 = (ImageView) findViewById(R.id.ma_Dice3);
 
         ma_RollDicesBtn = findViewById(R.id.ma_rollBtn);
 
@@ -47,21 +47,21 @@ public class MainActivity extends AppCompatActivity {
         ma_RollDicesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                int RanDiceVal1 = randomDiceValue();
-//                int RanDiceVal2 = randomDiceValue();
-//                int RanDiceVal3 = randomDiceValue();
+                int RanDiceVal1 = randomDiceValue();
+                int RanDiceVal2 = randomDiceValue();
+                int RanDiceVal3 = randomDiceValue();
 
-//                int res1 = getResources().getIdentifier("Dice_" + RanDiceVal1 ,
-//                        "drawable", "com.example.pietjesbak");
-//                int res2 = getResources().getIdentifier("Dice_" + RanDiceVal2 ,
-//                        "drawable", "com.example.pietjesbak");
-//                int res3 = getResources().getIdentifier("Dice_" + RanDiceVal3 ,
-//                        "drawable", "com.example.pietjesbak");
+                int res1 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
+                        "drawable", "com.example.pietjesbak");
+                int res2 = getResources().getIdentifier("dice_" + RanDiceVal2 ,
+                        "drawable", "com.example.pietjesbak");
+                int res3 = getResources().getIdentifier("dice_" + RanDiceVal3 ,
+                        "drawable", "com.example.pietjesbak");
 
 
-//                ma_Dice1.setText(String.valueOf(RanDiceVal1));
-//                ma_Dice2.setText(String.valueOf(RanDiceVal2));
-//                ma_Dice3.setText(String.valueOf(RanDiceVal3));
+                ma_Dice1.setImageResource(res1);
+                ma_Dice2.setImageResource(res2);
+                ma_Dice3.setImageResource(res3);
             }
         });
     }
