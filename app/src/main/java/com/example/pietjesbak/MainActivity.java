@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             String strPlayer1 = playerNames.getString("player1");
             String strPlayer2 = playerNames.getString("player2");
             ma_DisplayPlayer1.setText(strPlayer1);
+            ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorActivePlayer));
             ma_DisplayPlayer2.setText(strPlayer2);
         }
 
@@ -74,9 +75,33 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "You need to throw all the dices!",
                             Toast.LENGTH_SHORT).show();
                 } else{
+                    AmountRolls -= 1;
                     RollDice();
+                    //TODO: calculate and print the score -> function?
                 }
 
+                if( AmountRolls == 0){
+
+                    //uncheck all boxes for next player
+                    ma_Checkbox_Dice1.setChecked(false);
+                    ma_Checkbox_Dice2.setChecked(false);
+                    ma_Checkbox_Dice3.setChecked(false);
+
+                    //change player
+                    if(Player1Turn == true){
+                        ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorNeutral));
+                        ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorActivePlayer));
+                        Player1Turn = false;
+                        //TODO: mayby show AmountRolls
+                        AmountRolls = 3;
+                    }else{
+                        ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorActivePlayer));
+                        ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorNeutral));
+                        Player1Turn = true;
+                        AmountRolls = 3;
+                        //TODO: compare score -> function?
+                    }
+                }
             }
         });
 

@@ -2,11 +2,13 @@
 <resources>
     <color name="colorPrimary">#189aea</color>
     <color name="colorPrimaryDark">#007ddb</color>
-    <color name="colorAccent">#e5e5e5</color>
+    <color name="colorNeutral">#e5e5e5</color>
 
     <color name="colorButtonNormal">#545355</color>
 
     <color name="colorStartGradient">#1fa2ff</color>
     <color name="colorMiddleGradient">#12d8fa</color>
     <color name="colorEndGradient">#a6ffcb</color>
+
+    <color name="colorActivePlayer">#FF7A54</color>
 </resources>
