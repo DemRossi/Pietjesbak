@@ -49,6 +49,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3"
         android:src="@drawable/dice_1"/>
+
     <ImageView
         android:id="@+id/ma_Dice2"
         android:layout_width="100dp"
@@ -60,6 +61,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3"
         android:src="@drawable/dice_2"/>
+
     <ImageView
         android:id="@+id/ma_Dice3"
         android:layout_width="100dp"
@@ -127,6 +129,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.71"/>
+
     <CheckBox android:id="@+id/ma_checkbox_Dice1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -137,6 +140,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.78"/>
+
     <CheckBox android:id="@+id/ma_checkbox_Dice2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -147,6 +151,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.78"/>
+
     <CheckBox android:id="@+id/ma_checkbox_Dice3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -157,6 +162,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.78"/>
+
     <Button
         android:id="@+id/ma_rollBtn"
         android:layout_width="150dp"
@@ -168,6 +174,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.91" />
+
     <Button
         android:id="@+id/ma_stoefBtn"
         android:layout_width="150dp"
@@ -191,6 +198,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1" />
+
     <Button
         android:id="@+id/ma_sixNineBtn"
         android:layout_width="wrap_content"
@@ -202,6 +210,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1" />
+
     <Button
         android:id="@+id/ma_sandBtn"
         android:layout_width="wrap_content"
@@ -213,6 +222,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1" />
+
     <Button
         android:id="@+id/ma_sevenBtn"
         android:layout_width="wrap_content"

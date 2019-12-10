@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -27,25 +28,25 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean Player1Turn = true;
 
-    private int Total;
+    int ScoreTotal = 0, AmountRolls = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ma_DisplayPlayer1 = (TextView) findViewById(R.id.ma_textViewPlayer1);
-        ma_TextViewTotalPlayer1 = (TextView) findViewById(R.id.ma_textViewTotalPlayer1);
-        ma_DisplayPlayer2 = (TextView) findViewById(R.id.ma_textViewPlayer2);
-        ma_TextViewTotalPlayer2 = (TextView) findViewById(R.id.ma_textViewTotalPlayer2);
+        ma_DisplayPlayer1 = findViewById(R.id.ma_textViewPlayer1);
+        ma_TextViewTotalPlayer1 = findViewById(R.id.ma_textViewTotalPlayer1);
+        ma_DisplayPlayer2 = findViewById(R.id.ma_textViewPlayer2);
+        ma_TextViewTotalPlayer2 = findViewById(R.id.ma_textViewTotalPlayer2);
 
-        ma_Dice1 = (ImageView) findViewById(R.id.ma_Dice1);
-        ma_Dice2 = (ImageView) findViewById(R.id.ma_Dice2);
-        ma_Dice3 = (ImageView) findViewById(R.id.ma_Dice3);
+        ma_Dice1 = findViewById(R.id.ma_Dice1);
+        ma_Dice2 = findViewById(R.id.ma_Dice2);
+        ma_Dice3 = findViewById(R.id.ma_Dice3);
 
-        ma_Checkbox_Dice1 = (CheckBox) findViewById(R.id.ma_checkbox_Dice1);
-        ma_Checkbox_Dice2 = (CheckBox) findViewById(R.id.ma_checkbox_Dice2);
-        ma_Checkbox_Dice3 = (CheckBox) findViewById(R.id.ma_checkbox_Dice3);
+        ma_Checkbox_Dice1 = findViewById(R.id.ma_checkbox_Dice1);
+        ma_Checkbox_Dice2 = findViewById(R.id.ma_checkbox_Dice2);
+        ma_Checkbox_Dice3 = findViewById(R.id.ma_checkbox_Dice3);
 
         ma_RollDicesBtn = findViewById(R.id.ma_rollBtn);
         ma_StoefBtn = findViewById(R.id.ma_stoefBtn);
@@ -67,7 +68,15 @@ public class MainActivity extends AppCompatActivity {
         ma_RollDicesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RollDice();
+                // See if you can throw all dices on first throw
+                if(AmountRolls == 3 && (ma_Checkbox_Dice1.isChecked() || ma_Checkbox_Dice2.isChecked()
+                || ma_Checkbox_Dice3.isChecked())){
+                    Toast.makeText(MainActivity.this, "You need to throw all the dices!",
+                            Toast.LENGTH_SHORT).show();
+                } else{
+                    RollDice();
+                }
+
             }
         });
 
@@ -107,9 +116,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void RollDice(){
-        int RanDiceVal1;
-        int RanDiceVal2;
-        int RanDiceVal3;
+        int RanDiceVal1, RanDiceVal2, RanDiceVal3;
 
         for (int i = 0; i<=3; i++){
 
