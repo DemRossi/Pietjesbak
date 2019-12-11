@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if( AmountRolls == 0){
-
+                    //TODO: put this function into the calcScore function
                     //uncheck all boxes for next player
                     ma_Checkbox_Dice1.setChecked(false);
                     ma_Checkbox_Dice2.setChecked(false);
