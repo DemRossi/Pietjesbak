@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     int ScoreTotal = 0, AmountRolls = 3 , RanDiceVal1, RanDiceVal2, RanDiceVal3, Player1SubTot, Player2SubTot ;
 
-    String ScoreText;
+    String ScoreTotalText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 Player1Turn = true;
                 AmountRolls = 3;
                 //TODO: compare score -> function?
+                CompareScore();
             }
         }
     }
@@ -244,32 +245,32 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     // 3 Apes (111)
                     ScoreTotal = 799;
-                    ScoreText = "3 Apes (1-1-1)";
+                    ScoreTotalText = "3 Apes (1-1-1)";
                     break;
                 case 2:
                     // Sand (222)
                     ScoreTotal = 722;
-                    ScoreText = "Sand (2-2-2)";
+                    ScoreTotalText = "Sand (2-2-2)";
                     break;
                 case 3:
                     // Sand (333)
                     ScoreTotal = 733;
-                    ScoreText = "Sand (3-3-3)";
+                    ScoreTotalText = "Sand (3-3-3)";
                     break;
                 case 4:
                     // Sand (444)
                     ScoreTotal = 744;
-                    ScoreText = "Sand (4-4-4)";
+                    ScoreTotalText = "Sand (4-4-4)";
                     break;
                 case 5:
                     // Sand (555)
                     ScoreTotal = 755;
-                    ScoreText = "Sand (5-5-5)";
+                    ScoreTotalText = "Sand (5-5-5)";
                     break;
                 case 6:
                     // Sand (666)
                     ScoreTotal = 766;
-                    ScoreText = "Sand (6-6-6)";
+                    ScoreTotalText = "Sand (6-6-6)";
                     break;
             }
             // TODO: score uitprinten
@@ -287,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
             if (checker69[0] == true && checker69[1] == true && checker69[2] == true) {
                 // Soixante-neuf is trown
                 ScoreTotal = 769;
-                ScoreText = "Soixante-Neuf (6-5-4)";
+                ScoreTotalText = "Soixante-Neuf (6-5-4)";
                 printScore();
             } else {
                 switch (RanDiceVal1) {
@@ -354,22 +355,25 @@ public class MainActivity extends AppCompatActivity {
                 if (ScoreTotal == 7) {
                     // Rules for trowing 7
                 }
-                ScoreText = String.valueOf(ScoreTotal);
+                ScoreTotalText = String.valueOf(ScoreTotal);
                 printScore();
             }
-            //set all check69 back to false for next player/turn
+            // Reset array
             Arrays.fill(checker69, false);
         }
     }
     public void printScore(){
         if (Player1Turn == true){
-            ma_TextViewTotalPlayer1.setText("Total: " + ScoreText);
+            ma_TextViewTotalPlayer1.setText("Total: " + ScoreTotalText);
             Player1SubTot = ScoreTotal;
             ScoreTotal = 0;
         }else{
-            ma_TextViewTotalPlayer2.setText("Total: " + ScoreText);
+            ma_TextViewTotalPlayer2.setText("Total: " + ScoreTotalText);
             Player2SubTot = ScoreTotal;
             ScoreTotal = 0;
         }
+    }
+    public void CompareScore(){
+
     }
 }
