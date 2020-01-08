@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -28,7 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean Player1Turn = true;
 
-    int ScoreTotal = 0, AmountRolls = 3;
+    boolean checker69[] = {false, false, false};
+
+    int ScoreTotal = 0, AmountRolls = 3 , RanDiceVal1, RanDiceVal2, RanDiceVal3, Player1SubTot, Player2SubTot ;
+
+    String ScoreText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,32 +82,11 @@ public class MainActivity extends AppCompatActivity {
                 } else{
                     AmountRolls -= 1;
                     RollDice();
+                    calcScore();
                     //TODO: calculate and print the score -> function?
                     //TODO: how about RollDice for test buttons?
                 }
-
-                if( AmountRolls == 0){
-
-                    //uncheck all boxes for next player
-                    ma_Checkbox_Dice1.setChecked(false);
-                    ma_Checkbox_Dice2.setChecked(false);
-                    ma_Checkbox_Dice3.setChecked(false);
-
-                    //change player
-                    if(Player1Turn == true){
-                        ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorNeutral));
-                        ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorActivePlayer));
-                        Player1Turn = false;
-                        //TODO: mayby show AmountRolls
-                        AmountRolls = 3;
-                    }else{
-                        ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorActivePlayer));
-                        ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorNeutral));
-                        Player1Turn = true;
-                        AmountRolls = 3;
-                        //TODO: compare score -> function?
-                    }
-                }
+                RollCheck();
             }
         });
 
@@ -110,13 +94,19 @@ public class MainActivity extends AppCompatActivity {
         ma_ApeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AmountRolls -= 1;
                 RollDice(1,1,1);
+                calcScore();
+                RollCheck();
             }
         });
         ma_SixNineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RollDice(6,5,4);
+                AmountRolls -= 1;
+                calcScore();
+                RollCheck();
             }
         });
         ma_SandBtn.setOnClickListener(new View.OnClickListener() {
@@ -126,23 +116,30 @@ public class MainActivity extends AppCompatActivity {
 
                 if (RanDiceVal != 1){
                     RollDice(RanDiceVal,RanDiceVal,RanDiceVal);
+//                    calcScore();
                 }else{
                     RanDiceVal = randomDiceValue();
                     RollDice(RanDiceVal,RanDiceVal,RanDiceVal);
+
                 }
+                AmountRolls -= 1;
+                calcScore();
+                RollCheck();
             }
         });
         ma_SevenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RollDice(2,2,3);
+                AmountRolls -= 1;
+//                calcScore();
+                RollCheck();
             }
         });
 //      END test buttons
     }
 
     public void RollDice(){
-        int RanDiceVal1, RanDiceVal2, RanDiceVal3;
 
         for (int i = 0; i<=3; i++){
 
@@ -177,38 +174,202 @@ public class MainActivity extends AppCompatActivity {
                 ma_Dice3.setImageResource(res3);
             }
         }
+//        calcScore(RanDiceVal1,RanDiceVal2,RanDiceVal3);
     }
-    public void RollDice(int RanDiceVal1,int RanDiceVal2,int RanDiceVal3){
+    public void RollDice(int _RanDiceVal1,int _RanDiceVal2,int _RanDiceVal3){
+
 
         for (int i = 0; i<=3; i++){
 
             // Check if dice is checked, if not give random value
             if(i == 1 && !ma_Checkbox_Dice1.isChecked()){
                 // Select dice on random value
-                int res1 = getResources().getIdentifier("dice_" + RanDiceVal1 ,
+                int res1 = getResources().getIdentifier("dice_" + _RanDiceVal1 ,
                         "drawable", "com.example.pietjesbak");
 
                 // Draw dice
                 ma_Dice1.setImageResource(res1);
+                RanDiceVal1 = _RanDiceVal1;
 
             } else if( i == 2 && !ma_Checkbox_Dice2.isChecked()){
                 // Select dice on random value
-                int res2 = getResources().getIdentifier("dice_" + RanDiceVal2 ,
+                int res2 = getResources().getIdentifier("dice_" + _RanDiceVal2 ,
                         "drawable", "com.example.pietjesbak");
 
                 // Draw dice
                 ma_Dice2.setImageResource(res2);
+                RanDiceVal2 = _RanDiceVal2;
             }else if (i == 3 && !ma_Checkbox_Dice3.isChecked()){
                 // Select dice on random value
-                int res3 = getResources().getIdentifier("dice_" + RanDiceVal3 ,
+                int res3 = getResources().getIdentifier("dice_" + _RanDiceVal3 ,
                         "drawable", "com.example.pietjesbak");
 
                 // Draw dice
                 ma_Dice3.setImageResource(res3);
+                RanDiceVal3 = _RanDiceVal3;
             }
         }
     }
     public static int randomDiceValue(){
         return RANDOM.nextInt(6) +1;
+    }
+    public void RollCheck (){
+        if( AmountRolls == 0){
+
+            //uncheck all boxes for next player
+            ma_Checkbox_Dice1.setChecked(false);
+            ma_Checkbox_Dice2.setChecked(false);
+            ma_Checkbox_Dice3.setChecked(false);
+
+            //change player
+            if(Player1Turn == true){
+                ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorNeutral));
+                ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorActivePlayer));
+                Player1Turn = false;
+                //TODO: mayby show AmountRolls
+                AmountRolls = 3;
+            }else{
+                ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorActivePlayer));
+                ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorNeutral));
+                Player1Turn = true;
+                AmountRolls = 3;
+                //TODO: compare score -> function?
+            }
+        }
+    }
+    public void calcScore(){
+//        Check for sand
+        if (RanDiceVal1 == RanDiceVal2 && RanDiceVal1 == RanDiceVal3){
+            switch(RanDiceVal1){
+                case 1:
+                    // 3 Apes (111)
+                    ScoreTotal = 799;
+                    ScoreText = "3 Apes (1-1-1)";
+                    break;
+                case 2:
+                    // Sand (222)
+                    ScoreTotal = 722;
+                    ScoreText = "Sand (2-2-2)";
+                    break;
+                case 3:
+                    // Sand (333)
+                    ScoreTotal = 733;
+                    ScoreText = "Sand (3-3-3)";
+                    break;
+                case 4:
+                    // Sand (444)
+                    ScoreTotal = 744;
+                    ScoreText = "Sand (4-4-4)";
+                    break;
+                case 5:
+                    // Sand (555)
+                    ScoreTotal = 755;
+                    ScoreText = "Sand (5-5-5)";
+                    break;
+                case 6:
+                    // Sand (666)
+                    ScoreTotal = 766;
+                    ScoreText = "Sand (6-6-6)";
+                    break;
+            }
+            // TODO: score uitprinten
+            printScore();
+        }else if(ScoreTotal == 0) {
+            if (RanDiceVal1 == 4 || RanDiceVal2 == 4 || RanDiceVal3 == 4) {
+                checker69[0] = true;
+            }
+            if (RanDiceVal1 == 5 || RanDiceVal2 == 5 || RanDiceVal3 == 5) {
+                checker69[1] = true;
+            }
+            if (RanDiceVal1 == 6 || RanDiceVal2 == 6 || RanDiceVal3 == 6) {
+                checker69[2] = true;
+            }
+            if (checker69[0] == true && checker69[1] == true && checker69[2] == true) {
+                // Soixante-neuf is trown
+                ScoreTotal = 769;
+                ScoreText = "Soixante-Neuf (6-5-4)";
+                printScore();
+            } else {
+                switch (RanDiceVal1) {
+                    case 1:
+                        ScoreTotal += 100;
+                        break;
+                    case 2:
+                        ScoreTotal += 2;
+                        break;
+                    case 3:
+                        ScoreTotal += 3;
+                        break;
+                    case 4:
+                        ScoreTotal += 4;
+                        break;
+                    case 5:
+                        ScoreTotal += 5;
+                        break;
+                    case 6:
+                        ScoreTotal += 60;
+                        break;
+                }
+                switch (RanDiceVal2) {
+                    case 1:
+                        ScoreTotal += 100;
+                        break;
+                    case 2:
+                        ScoreTotal += 2;
+                        break;
+                    case 3:
+                        ScoreTotal += 3;
+                        break;
+                    case 4:
+                        ScoreTotal += 4;
+                        break;
+                    case 5:
+                        ScoreTotal += 5;
+                        break;
+                    case 6:
+                        ScoreTotal += 60;
+                        break;
+                }
+                switch (RanDiceVal3) {
+                    case 1:
+                        ScoreTotal += 100;
+                        break;
+                    case 2:
+                        ScoreTotal += 2;
+                        break;
+                    case 3:
+                        ScoreTotal += 3;
+                        break;
+                    case 4:
+                        ScoreTotal += 4;
+                        break;
+                    case 5:
+                        ScoreTotal += 5;
+                        break;
+                    case 6:
+                        ScoreTotal += 60;
+                        break;
+                }
+
+                if (ScoreTotal == 7) {
+                    // Rules for trowing 7
+                }
+                ScoreText = String.valueOf(ScoreTotal);
+                printScore();
+            }
+            //set all check69 back to false for next player/turn
+            Arrays.fill(checker69, false);
+        }
+    }
+    public void printScore(){
+        if (Player1Turn == true){
+            ma_TextViewTotalPlayer1.setText("Total: " + ScoreText);
+            Player1SubTot = ScoreTotal;
+            ScoreTotal = 0;
+        }else{
+            ma_TextViewTotalPlayer2.setText("Total: " + ScoreText);
+            Player2SubTot = ScoreTotal;
+            ScoreTotal = 0;
+        }
     }
 }
