@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             ma_textViewLinesPlayer1.setText("Lines: " + LinesPlayer1);
-            Toast.makeText(MainActivity.this, "Player 1 wins! " + LinesPlayer1 + " over", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins! " + LinesPlayer1 + " more lines", Toast.LENGTH_SHORT).show();
             ma_TextViewTotalPlayer1.setText("Total: 0");
             ma_TextViewTotalPlayer2.setText("Total: 0");
 
@@ -453,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             ma_textViewLinesPlayer2.setText("Lines: " + LinesPlayer2);
-            Toast.makeText(MainActivity.this, "Player 2 wins! " + LinesPlayer2 + " over", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, ma_DisplayPlayer2.getText() + " wins! " + LinesPlayer2 + " more lines", Toast.LENGTH_SHORT).show();
             ma_TextViewTotalPlayer1.setText("Total: 0");
             ma_TextViewTotalPlayer2.setText("Total: 0");
         }
