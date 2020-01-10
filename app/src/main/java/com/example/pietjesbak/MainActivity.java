@@ -17,7 +17,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView ma_DisplayPlayer1, ma_TextViewTotalPlayer1, ma_DisplayPlayer2, ma_TextViewTotalPlayer2;
+    private TextView ma_DisplayPlayer1, ma_TextViewTotalPlayer1, ma_DisplayPlayer2, ma_TextViewTotalPlayer2,
+            ma_textViewLinesPlayer1, ma_textViewLinesPlayer2;
 
     private ImageView ma_Dice1, ma_Dice2, ma_Dice3;
 
@@ -27,11 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final Random RANDOM = new Random();
 
-    Boolean Player1Turn = true;
+    Boolean Player1Turn = true, Player1Stoef = false, Player2Stoef = false;
 
     boolean checker69[] = {false, false, false};
 
-    int ScoreTotal = 0, AmountRolls = 3 , RanDiceVal1, RanDiceVal2, RanDiceVal3, Player1SubTot, Player2SubTot ;
+    int ScoreTotal = 0, AmountRolls = 3, LinesPlayer1 = 9, LinesPlayer2 = 9  , RanDiceVal1,
+            RanDiceVal2, RanDiceVal3, Player1SubTot, Player2SubTot ;
 
     String ScoreTotalText;
 
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         ma_TextViewTotalPlayer1 = findViewById(R.id.ma_textViewTotalPlayer1);
         ma_DisplayPlayer2 = findViewById(R.id.ma_textViewPlayer2);
         ma_TextViewTotalPlayer2 = findViewById(R.id.ma_textViewTotalPlayer2);
+        ma_textViewLinesPlayer1 = findViewById(R.id.ma_textViewLinesPlayer1);
+        ma_textViewLinesPlayer2 = findViewById(R.id.ma_textViewLinesPlayer2);
 
         ma_Dice1 = findViewById(R.id.ma_Dice1);
         ma_Dice2 = findViewById(R.id.ma_Dice2);
@@ -89,7 +93,20 @@ public class MainActivity extends AppCompatActivity {
                 RollCheck();
             }
         });
-
+        ma_StoefBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Player1Turn == true){
+                    Player1Stoef = true;
+                    AmountRolls = 0;
+                    RollCheck();
+                }else{
+                    Player2Stoef = true;
+                    AmountRolls = 0;
+                    RollCheck();
+                }
+            }
+        });
 //        START test buttons
         ma_ApeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (RanDiceVal != 1){
                     RollDice(RanDiceVal,RanDiceVal,RanDiceVal);
-//                    calcScore();
+                    calcScore();
                 }else{
                     RanDiceVal = randomDiceValue();
                     RollDice(RanDiceVal,RanDiceVal,RanDiceVal);
@@ -132,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 RollDice(2,2,3);
                 AmountRolls -= 1;
-//                calcScore();
+                calcScore();
                 RollCheck();
             }
         });
@@ -174,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
                 ma_Dice3.setImageResource(res3);
             }
         }
-//        calcScore(RanDiceVal1,RanDiceVal2,RanDiceVal3);
     }
     public void RollDice(int _RanDiceVal1,int _RanDiceVal2,int _RanDiceVal3){
 
@@ -226,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
                 ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorNeutral));
                 ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorActivePlayer));
                 Player1Turn = false;
-                //TODO: mayby show AmountRolls
                 AmountRolls = 3;
             }else{
                 ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorActivePlayer));
@@ -351,9 +366,17 @@ public class MainActivity extends AppCompatActivity {
                         ScoreTotal += 60;
                         break;
                 }
-
+                // Rules for trowing 7
                 if (ScoreTotal == 7) {
-                    // Rules for trowing 7
+                    // End of round a 7, lines of players +1
+                    if(AmountRolls == 0){
+                        LinesPlayer1 += 1;
+                        LinesPlayer2 += 1;
+
+                        ma_textViewLinesPlayer1.setText("Lines: " + LinesPlayer1);
+                        ma_textViewLinesPlayer2.setText("Lines: " + LinesPlayer2);
+                    }
+
                 }
                 ScoreTotalText = String.valueOf(ScoreTotal);
                 printScore();
@@ -374,6 +397,65 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void CompareScore(){
+        if(Player1SubTot == Player2SubTot){
+            // DRAW
+            AmountRolls = 3;
+            Toast.makeText(MainActivity.this, "DRAW", Toast.LENGTH_SHORT).show();
+        }else if (Player1SubTot > Player2SubTot){
+            // player 1 wins
+            if(Player1SubTot == 722 || Player1SubTot == 733 || Player1SubTot == 744 ||
+                    Player1SubTot == 755 || Player1SubTot == 766){
+                // Winning with Sand
+                LinesPlayer1 -= 2;
+            }else if (Player1SubTot == 769){
+                // Winning with 69
+                LinesPlayer1 -= 3;
+            }else if(Player1SubTot == 799){
+                // Winning with apes
+                if(LinesPlayer1 >= 9){
+                    // When lines are over 9 -> other person should win
+                }else{
+                    LinesPlayer1 = 0;
+                }
+            }else{
+                if (Player1Stoef == true) {
+                    LinesPlayer1 -= 2;
+                }else{
+                    LinesPlayer1 -= 1;
+                }
+            }
+            ma_textViewLinesPlayer1.setText("Lines: " + LinesPlayer1);
+            Toast.makeText(MainActivity.this, "Player 1 wins! " + LinesPlayer1 + " over", Toast.LENGTH_SHORT).show();
+            ma_TextViewTotalPlayer1.setText("Total: 0");
+            ma_TextViewTotalPlayer2.setText("Total: 0");
 
+        }else if(Player1SubTot < Player2SubTot){
+            // player 2 wins
+            if(Player2SubTot == 722 || Player2SubTot == 733 || Player2SubTot == 744 ||
+                    Player2SubTot == 755 || Player2SubTot == 766){
+                // Winning with Sand
+                LinesPlayer2 -= 2;
+            }else if (Player2SubTot == 769){
+                // Winning with 69
+                LinesPlayer2 -= 3;
+            }else if(Player2SubTot == 799){
+                // Winning with apes
+                if(LinesPlayer2 >= 9){
+                    // When lines are over 9 -> other person should win
+                }else{
+                    LinesPlayer2 = 0;
+                }
+            }else{
+                if (Player2Stoef == true) {
+                    LinesPlayer2 -= 2;
+                }else{
+                    LinesPlayer2 -= 1;
+                }
+            }
+            ma_textViewLinesPlayer2.setText("Lines: " + LinesPlayer2);
+            Toast.makeText(MainActivity.this, "Player 2 wins! " + LinesPlayer2 + " over", Toast.LENGTH_SHORT).show();
+            ma_TextViewTotalPlayer1.setText("Total: 0");
+            ma_TextViewTotalPlayer2.setText("Total: 0");
+        }
     }
 }
