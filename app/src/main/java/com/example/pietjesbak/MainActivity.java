@@ -3,9 +3,12 @@ package com.example.pietjesbak;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +22,9 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
 
     private TextView ma_DisplayPlayer1, ma_TextViewTotalPlayer1, ma_DisplayPlayer2, ma_TextViewTotalPlayer2,
             ma_textViewLinesPlayer1, ma_textViewLinesPlayer2;
@@ -108,6 +114,36 @@ public class MainActivity extends AppCompatActivity {
                     AmountRolls = 0;
                     RollCheck();
                 }
+            }
+        });
+        // ShakeDetector initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                /*
+                 * The following method, "handleShakeEvent(count):" is a stub //
+                 * method you would use to setup whatever you want done once the
+                 * device has been shook.
+                 */
+//                handleShakeEvent(count);
+                // See if you can throw all dices on first throw
+                if(AmountRolls == 3 && (ma_Checkbox_Dice1.isChecked() || ma_Checkbox_Dice2.isChecked()
+                        || ma_Checkbox_Dice3.isChecked())){
+                    Toast.makeText(MainActivity.this, "You need to throw all the dices!",
+                            Toast.LENGTH_SHORT).show();
+                } else{
+                    AmountRolls -= 1;
+                    RollDice();
+                    calcScore();
+                    //TODO: calculate and print the score -> function?
+                    //TODO: how about RollDice for test buttons?
+                }
+                RollCheck();
             }
         });
 //        START test buttons
@@ -556,4 +592,17 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        return false;
 //    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
 }
