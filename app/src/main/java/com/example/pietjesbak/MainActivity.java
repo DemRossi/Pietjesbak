@@ -87,19 +87,10 @@ public class MainActivity extends AppCompatActivity {
         ma_RollDicesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // See if you can throw all dices on first throw
-                if(AmountRolls == 3 && (ma_Checkbox_Dice1.isChecked() || ma_Checkbox_Dice2.isChecked()
-                || ma_Checkbox_Dice3.isChecked())){
-                    Toast.makeText(MainActivity.this, "You need to throw all the dices!",
-                            Toast.LENGTH_SHORT).show();
-                } else{
-                    AmountRolls -= 1;
-                    RollDice();
-                    calcScore();
-                    //TODO: calculate and print the score -> function?
-                    //TODO: how about RollDice for test buttons?
-                }
-                RollCheck();
+                // See that you throw all dices on first throw
+                FirstTrowWithCheck();
+                // Change player at the end of turn
+                ChangePlayer();
             }
         });
         ma_StoefBtn.setOnClickListener(new View.OnClickListener() {
@@ -108,11 +99,11 @@ public class MainActivity extends AppCompatActivity {
                 if (Player1Turn == true){
                     Player1Stoef = true;
                     AmountRolls = 0;
-                    RollCheck();
+                    ChangePlayer();
                 }else{
                     Player2Stoef = true;
                     AmountRolls = 0;
-                    RollCheck();
+                    ChangePlayer();
                 }
             }
         });
@@ -125,25 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onShake(int count) {
-                /*
-                 * The following method, "handleShakeEvent(count):" is a stub //
-                 * method you would use to setup whatever you want done once the
-                 * device has been shook.
-                 */
-//                handleShakeEvent(count);
-                // See if you can throw all dices on first throw
-                if(AmountRolls == 3 && (ma_Checkbox_Dice1.isChecked() || ma_Checkbox_Dice2.isChecked()
-                        || ma_Checkbox_Dice3.isChecked())){
-                    Toast.makeText(MainActivity.this, "You need to throw all the dices!",
-                            Toast.LENGTH_SHORT).show();
-                } else{
-                    AmountRolls -= 1;
-                    RollDice();
-                    calcScore();
-                    //TODO: calculate and print the score -> function?
-                    //TODO: how about RollDice for test buttons?
-                }
-                RollCheck();
+                // See that you throw all dices on first throw
+                FirstTrowWithCheck();
+                // Change player at the end of turn
+                ChangePlayer();
             }
         });
 //        START test buttons
@@ -153,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 AmountRolls -= 1;
                 RollDice(1,1,1);
                 calcScore();
-                RollCheck();
+                ChangePlayer();
             }
         });
         ma_SixNineBtn.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 RollDice(6,5,4);
                 AmountRolls -= 1;
                 calcScore();
-                RollCheck();
+                ChangePlayer();
             }
         });
         ma_SandBtn.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 AmountRolls -= 1;
                 calcScore();
-                RollCheck();
+                ChangePlayer();
             }
         });
         ma_SevenBtn.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 RollDice(2,2,3);
                 AmountRolls -= 1;
                 calcScore();
-                RollCheck();
+                ChangePlayer();
             }
         });
 //      END test buttons
@@ -268,7 +244,18 @@ public class MainActivity extends AppCompatActivity {
     public static int randomDiceValue(){
         return RANDOM.nextInt(6) +1;
     }
-    public void RollCheck (){
+    public void FirstTrowWithCheck(){
+        if(AmountRolls == 3 && (ma_Checkbox_Dice1.isChecked() || ma_Checkbox_Dice2.isChecked()
+                || ma_Checkbox_Dice3.isChecked())){
+            Toast.makeText(MainActivity.this, "You need to throw all the dices!",
+                    Toast.LENGTH_SHORT).show();
+        } else{
+            AmountRolls -= 1;
+            RollDice();
+            calcScore();
+        }
+    }
+    public void ChangePlayer (){
         if( AmountRolls == 0){
 
             //uncheck all boxes for next player
@@ -287,7 +274,6 @@ public class MainActivity extends AppCompatActivity {
                 ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorNeutralLight));
                 Player1Turn = true;
                 AmountRolls = 3;
-                //TODO: compare score -> function?
                 CompareScore();
             }
         }
@@ -529,7 +515,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Restart", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Restart();
+                RestartGame();
             }
         });
         builder.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
@@ -548,13 +534,13 @@ public class MainActivity extends AppCompatActivity {
                 share.putExtra(Intent.EXTRA_TEXT, message);
 
                 startActivity(Intent.createChooser(share, "Title of the dialog the system will open"));
-                Restart();
+                RestartGame();
 //                SharingToSocialMedia("com.facebook.katana");
             }
         });
         builder.show();
     }
-    public void Restart(){
+    public void RestartGame(){
         LinesPlayer1 = 9;
         LinesPlayer2 = 9;
         ScoreTotal = 0;
