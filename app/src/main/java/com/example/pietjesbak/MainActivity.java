@@ -420,6 +420,8 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 if (Player1Stoef == true) {
                     LinesPlayer1 -= 2;
+                    // Change player stoef back to false
+                    Player1Stoef = false;
                 }else{
                     LinesPlayer1 -= 1;
                 }
@@ -448,6 +450,8 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 if (Player2Stoef == true) {
                     LinesPlayer2 -= 2;
+                    // Change player stoef back to false
+                    Player2Stoef = false;
                 }else{
                     LinesPlayer2 -= 1;
                 }
