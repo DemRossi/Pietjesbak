@@ -1,8 +1,11 @@
 package com.example.pietjesbak;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -239,13 +242,13 @@ public class MainActivity extends AppCompatActivity {
 
             //change player
             if(Player1Turn == true){
-                ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorNeutral));
+                ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorNeutralLight));
                 ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorActivePlayer));
                 Player1Turn = false;
                 AmountRolls = 3;
             }else{
                 ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorActivePlayer));
-                ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorNeutral));
+                ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorNeutralLight));
                 Player1Turn = true;
                 AmountRolls = 3;
                 //TODO: compare score -> function?
@@ -288,8 +291,7 @@ public class MainActivity extends AppCompatActivity {
                     ScoreTotalText = "Sand (6-6-6)";
                     break;
             }
-            // TODO: score uitprinten
-            printScore();
+            PrintScore();
         }else if(ScoreTotal == 0) {
             if (RanDiceVal1 == 4 || RanDiceVal2 == 4 || RanDiceVal3 == 4) {
                 checker69[0] = true;
@@ -304,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 // Soixante-neuf is trown
                 ScoreTotal = 769;
                 ScoreTotalText = "Soixante-Neuf (6-5-4)";
-                printScore();
+                PrintScore();
             } else {
                 switch (RanDiceVal1) {
                     case 1:
@@ -379,13 +381,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 ScoreTotalText = String.valueOf(ScoreTotal);
-                printScore();
+                PrintScore();
             }
             // Reset array
             Arrays.fill(checker69, false);
         }
     }
-    public void printScore(){
+    public void PrintScore(){
         if (Player1Turn == true){
             ma_TextViewTotalPlayer1.setText("Total: " + ScoreTotalText);
             Player1SubTot = ScoreTotal;
@@ -426,10 +428,18 @@ public class MainActivity extends AppCompatActivity {
                     LinesPlayer1 -= 1;
                 }
             }
-            ma_textViewLinesPlayer1.setText("Lines: " + LinesPlayer1);
-            Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins! " + LinesPlayer1 + " more lines", Toast.LENGTH_SHORT).show();
-            ma_TextViewTotalPlayer1.setText("Total: 0");
-            ma_TextViewTotalPlayer2.setText("Total: 0");
+            // Check lines for winner
+            if(LinesPlayer1 > 0){
+                ma_textViewLinesPlayer1.setText("Lines: " + LinesPlayer1);
+//                Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins this round! " + LinesPlayer1 + " more lines", Toast.LENGTH_SHORT).show();
+                RoundWinnerAlert((String) ma_DisplayPlayer1.getText(), LinesPlayer1);
+                ma_TextViewTotalPlayer1.setText("Total: 0");
+                ma_TextViewTotalPlayer2.setText("Total: 0");
+            }else{
+//                Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins the GAME! ", Toast.LENGTH_SHORT).show();
+                GameWinnerAlert((String) ma_DisplayPlayer1.getText());
+            }
+
 
         }else if(Player1SubTot < Player2SubTot){
             // player 2 wins
@@ -456,10 +466,94 @@ public class MainActivity extends AppCompatActivity {
                     LinesPlayer2 -= 1;
                 }
             }
-            ma_textViewLinesPlayer2.setText("Lines: " + LinesPlayer2);
-            Toast.makeText(MainActivity.this, ma_DisplayPlayer2.getText() + " wins! " + LinesPlayer2 + " more lines", Toast.LENGTH_SHORT).show();
-            ma_TextViewTotalPlayer1.setText("Total: 0");
-            ma_TextViewTotalPlayer2.setText("Total: 0");
+            // Check lines for winner
+            if(LinesPlayer2 > 0){
+                ma_textViewLinesPlayer2.setText("Lines: " + LinesPlayer2);
+//                Toast.makeText(MainActivity.this, ma_DisplayPlayer2.getText() + " wins this round! " + LinesPlayer2 + " more lines", Toast.LENGTH_SHORT).show();
+                RoundWinnerAlert((String) ma_DisplayPlayer2.getText(), LinesPlayer2);
+                ma_TextViewTotalPlayer1.setText("Total: 0");
+                ma_TextViewTotalPlayer2.setText("Total: 0");
+            }else{
+//                Toast.makeText(MainActivity.this, ma_DisplayPlayer2.getText() + " wins the GAME! ", Toast.LENGTH_SHORT).show();
+                GameWinnerAlert((String) ma_DisplayPlayer2.getText());
+            }
         }
     }
+    public void RoundWinnerAlert(String roundWinner, int linesPlayers){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(roundWinner + " has won this round.");
+        builder.setMessage(roundWinner +" has " + linesPlayers + " lines left.");
+//        builder.setPositiveButton("Ok", null);
+        builder.show();
+    }
+    public void GameWinnerAlert(final String gameWinner){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle( "🎉 " + gameWinner + " has won this game!!! 🎉 ");
+        builder.setMessage("Winner Winner Chicken Dinner!!!");
+        builder.setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Restart();
+            }
+        });
+        builder.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                System.exit(0);
+            }
+        });
+        builder.setNeutralButton("Share", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String message = gameWinner + " has won a game of Pietjesbak";
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, message);
+
+                startActivity(Intent.createChooser(share, "Title of the dialog the system will open"));
+                Restart();
+//                SharingToSocialMedia("com.facebook.katana");
+            }
+        });
+        builder.show();
+    }
+    public void Restart(){
+        LinesPlayer1 = 9;
+        LinesPlayer2 = 9;
+        ScoreTotal = 0;
+        Player1SubTot = 0;
+        Player2SubTot = 0;
+        AmountRolls = 3;
+        Player1Turn = true;
+        ma_TextViewTotalPlayer1.setText("Total: 0");
+        ma_TextViewTotalPlayer2.setText("Total: 0");
+        ma_textViewLinesPlayer1.setText("Lines: " + LinesPlayer1);
+        ma_textViewLinesPlayer2.setText("Lines: " + LinesPlayer2);
+    }
+//    public void SharingToSocialMedia(String application) {
+//
+//        Intent intent = new Intent();
+//        intent.setAction(Intent.ACTION_SEND);
+//        intent.setType("image/*");
+////        intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+//
+//        boolean installed = checkAppInstall(application);
+//        if (installed) {
+//            intent.setPackage(application);
+//            startActivity(intent);
+//        } else {
+//            Toast.makeText(getApplicationContext(),
+//                    "Installed application first", Toast.LENGTH_LONG).show();
+//        }
+//    }
+//    private boolean checkAppInstall(String uri) {
+//        PackageManager pm = getPackageManager();
+//        try {
+//            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+//            return true;
+//        } catch (PackageManager.NameNotFoundException e) {
+//        }
+//        return false;
+//    }
 }

@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#189aea</color>
     <color name="colorPrimaryDark">#007ddb</color>
-    <color name="colorNeutral">#e5e5e5</color>
+    <color name="colorNeutral">#000000</color>
+    <color name="colorNeutralLight">#e5e5e5</color>
 
     <color name="colorButtonNormal">#545355</color>
 
