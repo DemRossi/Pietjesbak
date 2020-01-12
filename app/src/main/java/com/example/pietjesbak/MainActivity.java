@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     int ScoreTotal = 0, AmountRolls = 3, LinesPlayer1 = 9, LinesPlayer2 = 9  , RanDiceVal1,
             RanDiceVal2, RanDiceVal3, Player1SubTot, Player2SubTot ;
 
-    String ScoreTotalText;
+    String ScoreTotalText, Player1TotalText, Player2TotalText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
                 ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorActivePlayer));
                 Player1Turn = false;
                 AmountRolls = 3;
+                ChangePlayerAlert((String) ma_DisplayPlayer1.getText(), (String) ma_DisplayPlayer2.getText(), Player1TotalText);
             }else{
                 ma_DisplayPlayer1.setTextColor(getResources().getColor(R.color.colorActivePlayer));
                 ma_DisplayPlayer2.setTextColor(getResources().getColor(R.color.colorNeutralLight));
@@ -412,10 +413,12 @@ public class MainActivity extends AppCompatActivity {
     public void PrintScore(){
         if (Player1Turn == true){
             ma_TextViewTotalPlayer1.setText("Total: " + ScoreTotalText);
+            Player1TotalText = ScoreTotalText;
             Player1SubTot = ScoreTotal;
             ScoreTotal = 0;
         }else{
             ma_TextViewTotalPlayer2.setText("Total: " + ScoreTotalText);
+            Player2TotalText = ScoreTotalText;
             Player2SubTot = ScoreTotal;
             ScoreTotal = 0;
         }
@@ -424,7 +427,8 @@ public class MainActivity extends AppCompatActivity {
         if(Player1SubTot == Player2SubTot){
             // DRAW
             AmountRolls = 3;
-            Toast.makeText(MainActivity.this, "DRAW", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this, "DRAW", Toast.LENGTH_SHORT).show();
+            DrawAlert();
         }else if (Player1SubTot > Player2SubTot){
             // player 1 wins
             if(Player1SubTot == 722 || Player1SubTot == 733 || Player1SubTot == 744 ||
@@ -438,6 +442,8 @@ public class MainActivity extends AppCompatActivity {
                 // Winning with apes
                 if(LinesPlayer1 >= 9){
                     // When lines are over 9 -> other person should win
+                    LinesPlayer2 = 0;
+//                    ApeWinnerAlert((String) ma_DisplayPlayer2.getText(), (String) ma_DisplayPlayer1.getText());
                 }else{
                     LinesPlayer1 = 0;
                 }
@@ -450,19 +456,20 @@ public class MainActivity extends AppCompatActivity {
                     LinesPlayer1 -= 1;
                 }
             }
+
             // Check lines for winner
-            if(LinesPlayer1 > 0){
+            if(LinesPlayer1 > 0 && LinesPlayer2 == 0){
+                ApeWinnerAlert((String) ma_DisplayPlayer2.getText(), (String) ma_DisplayPlayer1.getText());
+            }else if(LinesPlayer1 > 0 && LinesPlayer2 != 0){
                 ma_textViewLinesPlayer1.setText("Lines: " + LinesPlayer1);
 //                Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins this round! " + LinesPlayer1 + " more lines", Toast.LENGTH_SHORT).show();
-                RoundWinnerAlert((String) ma_DisplayPlayer1.getText(), LinesPlayer1);
+                RoundWinnerAlert((String) ma_DisplayPlayer1.getText(), LinesPlayer1, Player1TotalText);
                 ma_TextViewTotalPlayer1.setText("Total: 0");
                 ma_TextViewTotalPlayer2.setText("Total: 0");
-            }else{
+            }else if(LinesPlayer1 == 0){
 //                Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins the GAME! ", Toast.LENGTH_SHORT).show();
                 GameWinnerAlert((String) ma_DisplayPlayer1.getText());
             }
-
-
         }else if(Player1SubTot < Player2SubTot){
             // player 2 wins
             if(Player2SubTot == 722 || Player2SubTot == 733 || Player2SubTot == 744 ||
@@ -476,6 +483,8 @@ public class MainActivity extends AppCompatActivity {
                 // Winning with apes
                 if(LinesPlayer2 >= 9){
                     // When lines are over 9 -> other person should win
+                    LinesPlayer1 = 0;
+                    GameWinnerAlert((String) ma_DisplayPlayer1.getText());
                 }else{
                     LinesPlayer2 = 0;
                 }
@@ -489,23 +498,71 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             // Check lines for winner
-            if(LinesPlayer2 > 0){
+            if(LinesPlayer2 > 0 && LinesPlayer1 == 0){
+                ApeWinnerAlert((String) ma_DisplayPlayer1.getText(), (String) ma_DisplayPlayer2.getText());
+            }else if(LinesPlayer2 > 0 && LinesPlayer1 != 0){
                 ma_textViewLinesPlayer2.setText("Lines: " + LinesPlayer2);
-//                Toast.makeText(MainActivity.this, ma_DisplayPlayer2.getText() + " wins this round! " + LinesPlayer2 + " more lines", Toast.LENGTH_SHORT).show();
-                RoundWinnerAlert((String) ma_DisplayPlayer2.getText(), LinesPlayer2);
+//                Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins this round! " + LinesPlayer1 + " more lines", Toast.LENGTH_SHORT).show();
+                RoundWinnerAlert((String) ma_DisplayPlayer2.getText(), LinesPlayer2, Player2TotalText);
                 ma_TextViewTotalPlayer1.setText("Total: 0");
                 ma_TextViewTotalPlayer2.setText("Total: 0");
-            }else{
-//                Toast.makeText(MainActivity.this, ma_DisplayPlayer2.getText() + " wins the GAME! ", Toast.LENGTH_SHORT).show();
+            }else if(LinesPlayer2 == 0){
+//                Toast.makeText(MainActivity.this, ma_DisplayPlayer1.getText() + " wins the GAME! ", Toast.LENGTH_SHORT).show();
                 GameWinnerAlert((String) ma_DisplayPlayer2.getText());
             }
         }
     }
-    public void RoundWinnerAlert(String roundWinner, int linesPlayers){
+    public void DrawAlert(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("It's a draw!!!" );
+        builder.setMessage("Play an other round!!!");
+//        builder.setPositiveButton("Ok", null);
+        builder.show();
+    }
+    public void ChangePlayerAlert(String prevPlayer, String nextPlayer, String SubTotalText){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Next it's "+ nextPlayer +"'s round." );
+        builder.setMessage(prevPlayer +" has thrown a " + SubTotalText + ".");
+//        builder.setPositiveButton("Ok", null);
+        builder.show();
+    }
+    public void RoundWinnerAlert(String roundWinner, int linesWinner, String SubTotalText){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(roundWinner + " has won this round.");
-        builder.setMessage(roundWinner +" has " + linesPlayers + " lines left.");
+        builder.setMessage(roundWinner +" has thrown a " + SubTotalText + " and has "+linesWinner+" lines left.");
 //        builder.setPositiveButton("Ok", null);
+        builder.show();
+    }
+    public void ApeWinnerAlert(final String ApeWinner, final String ApeLoser){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle( "🎉" + ApeWinner + " has won this game!!!🎉");
+        builder.setMessage("Winner Winner Chicken Dinner!!! "+ ApeWinner +" won because "+ ApeLoser+" threw 3 apes without losing any lines.");
+        builder.setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                RestartGame();
+            }
+        });
+        builder.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                System.exit(0);
+            }
+        });
+        builder.setNeutralButton("Share", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String message = ApeWinner + " has won a game of Pietjesbak with 3 apes";
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, message);
+
+                startActivity(Intent.createChooser(share, "Title of the dialog the system will open"));
+                RestartGame();
+//                SharingToSocialMedia("com.facebook.katana");
+            }
+        });
         builder.show();
     }
     public void GameWinnerAlert(final String gameWinner){
